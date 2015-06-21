@@ -1,1 +1,1 @@
-web: gunicorn todo.main --log-file -
+web: gunicorn todo.main:run --log-file -
