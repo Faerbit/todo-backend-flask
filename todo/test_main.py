@@ -14,5 +14,9 @@ class MainTestCase(unittest.TestCase):
         response = self.app.get("/")
         self.assertEqual(response.status_code, 200)
 
+    def test_cors_headers(self):
+        response = self.app.get("/")
+        self.assertEqual(response.headers["Acces-Control-Allow-Origin"], "*")
+
 if __name__ == "__main__":
     unittest.main()
