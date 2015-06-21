@@ -1,0 +1,11 @@
+machine:
+    python:
+        version: 3.4.2
+
+dependencies:
+    pre:
+        - pip install -r requirements.txt
+
+test:
+    override:
+        - todo/test_main.py
