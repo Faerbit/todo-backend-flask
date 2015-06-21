@@ -9,6 +9,7 @@ class Entry(Base):
 
     def __init__(self, text=None):
         self.text = text
+        self.completed = False
 
     def __repr__(self):
         return "<Entry: {}>".format(self.text)
