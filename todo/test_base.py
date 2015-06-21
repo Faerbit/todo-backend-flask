@@ -10,7 +10,6 @@ class BaseTestCase(unittest.TestCase):
         todo.main.app.config["TESTING"] = True
         if os.environ.get("CI"):
             todo.main.app.config["DATABASE"] = "postgresql://ubuntu:@localhost/circle_test"
-            print("Using postgres.\n")
         else:
             todo.main.app.config["DATABASE"] = "sqlite://"
         self.app = todo.main.app.test_client()
