@@ -5,6 +5,7 @@ from flask import Flask, Response, jsonify
 from flask.ext.cors import CORS
 
 DATABASE=os.getenv("DATABASE_URL", "sqlite://")
+DATABASE=DATABASE.strip()
 
 app = Flask(__name__)
 app.config.from_object(__name__)
