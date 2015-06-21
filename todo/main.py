@@ -8,7 +8,7 @@ CORS(app, resources=r'/*', allow_headers="Content-Type")
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    return "Hello World"
+    return jsonify(string="Hello World")
 
 def run():
     app.run()
