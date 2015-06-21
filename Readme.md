@@ -1,5 +1,5 @@
 #todo-backend-flask
-A [todo backend](todobackend.com) written in Python with Flask.
+A [todo backend](http://todobackend.com) written in Python with Flask.
 
 ## License
 Licensed under the MIT License.
