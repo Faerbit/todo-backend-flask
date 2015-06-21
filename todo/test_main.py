@@ -1,4 +1,4 @@
-import main
+import todo.main
 
 import unittest
 from flask import json
@@ -6,8 +6,8 @@ from flask import json
 class MainTestCase(unittest.TestCase):
 
     def setUp(self):
-        main.app.config["TESTING"] = True
-        self.app = main.app.test_client()
+        todo.main.app.config["TESTING"] = True
+        self.app = todo.main.app.test_client()
 
     def test_index(self):
         response = self.app.get("/")
