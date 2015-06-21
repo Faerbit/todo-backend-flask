@@ -18,5 +18,9 @@ class MainTestCase(unittest.TestCase):
         response = self.app.get("/", headers={"Origin": "www.example.com"})
         self.assertEqual(response.headers["Access-Control-Allow-Origin"], "www.example.com")
 
+    def test_index_allows_posts(self):
+        response = self.app.post("/")
+        self.assertEqual(response.status_code, 200)
+
 if __name__ == "__main__":
     unittest.main()

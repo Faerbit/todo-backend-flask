@@ -6,7 +6,7 @@ from flask.ext.cors import CORS
 app = Flask(__name__)
 CORS(app, resources=r'/*', allow_headers="Content-Type")
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def index():
     return "Hello World"
 
