@@ -21,3 +21,20 @@ class EntryTestCase(BaseTestCase):
         self.assertEqual(None, query)
         query = Entry.query.filter(Entry.completed == False).first()
         self.assertEqual(entry, query)
+
+    def test_entries_are_ordered(self):
+        text1 = "some text"
+        text2 = "more text"
+        text3 = "additional text"
+        entry1 = Entry(text1)
+        db_session.add(entry1)
+        db_session.commit()
+        entry2 = Entry(text2)
+        db_session.add(entry2)
+        db_session.commit()
+        entry3 = Entry(text3)
+        db_session.add(entry3)
+        db_session.commit()
+        query = Entry.query.all()
+        self.assertEqual([entry1, entry2, entry3], query)
+        self.assertNotEqual([entry2, entry1, entry3], query)
