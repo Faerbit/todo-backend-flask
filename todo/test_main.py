@@ -1,13 +1,9 @@
-import todo.main
+from todo.test_base import BaseTestCase
 
 import unittest
 from flask import json
 
-class MainTestCase(unittest.TestCase):
-
-    def setUp(self):
-        todo.main.app.config["TESTING"] = True
-        self.app = todo.main.app.test_client()
+class MainTestCase(BaseTestCase):
 
     def test_index(self):
         response = self.app.get("/")
