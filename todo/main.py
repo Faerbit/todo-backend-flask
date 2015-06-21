@@ -14,6 +14,13 @@ CORS(app, resources=r'/*', allow_headers="Content-Type")
 def index():
     return jsonify(string="Hello World")
 
+# placed down here to prevent circular imports
+# messing up things
+from todo.database import db_session
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    db_session.remove()
+
 def run():
     app.run()
 
