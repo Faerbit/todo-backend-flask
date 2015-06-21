@@ -9,3 +9,9 @@ dependencies:
 test:
     override:
         - todo/test_main.py
+
+deployment:
+  production:
+    branch: master
+    heroku:
+        appname: todo-backend-flask
