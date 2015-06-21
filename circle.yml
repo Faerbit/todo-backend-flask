@@ -4,7 +4,7 @@ machine:
 
 test:
     override:
-        - todo/test_main.py
+        - python -m unittest discover
 
 deployment:
   production:
