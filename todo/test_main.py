@@ -28,5 +28,9 @@ class MainTestCase(BaseTestCase):
         response = self.app.post("/", data=json.dumps(data), content_type="application/json")
         self.assertEqual(data, json.loads(response.data))
 
+    def test_index_allows_delete(self):
+        response = self.app.delete("/")
+        self.assertEqual(response.status_code, 200)
+
 if __name__ == "__main__":
     unittest.main()

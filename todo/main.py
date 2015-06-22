@@ -11,7 +11,7 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 CORS(app, resources=r'/*', allow_headers="Content-Type")
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/", methods=["GET", "POST", "DELETE"])
 def index():
     if request.method == "POST":
         json = request.get_json()
