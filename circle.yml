@@ -11,3 +11,10 @@ deployment:
     branch: master
     heroku:
         appname: todo-backend-flask
+    commands:
+        - heroku maintenance:on --app todo-backend-flask
+        - heroku scale worker=0 --app todo-backend-flask
+        - git push git@heroku.com:todo-backend-flask.git $CIRCLE_SHA1:refs/heads/master
+        - heroku run python -c "from todo.database import init_db; init_db()"  --app todo-backend-flask
+        - heroku scale worker=1 --app todo-backend-flask
+        - heroku maintenance:off --app todo-backend-flask
