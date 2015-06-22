@@ -130,5 +130,22 @@ class IndexTestCase(BaseTestCase):
         response_data = json.loads(response.data.decode("utf-8"))
         self.assertEqual(url_for("entry", entry_id=1), response_data["url"])
 
+class EntryTestCase(BaseTestCase):
+
+    def setUp(self):
+        BaseTestCase.setUp(self)
+        self.data = dict(title="text")
+        self.app.post(url_for("index"),
+                data=json.dumps(self.data), content_type="application/json")
+
+    def test_entry_returns_entry(self):
+        response = self.app.get(url_for("entry", entry_id=1))
+        self.assertEqual(response.status_code, 200)
+
+    def test_entry_returns_correct_entry(self):
+        response = self.app.get(url_for("entry", entry_id=1))
+        response_data = json.loads(response.data.decode("utf-8"))
+        self.assertEqual(self.data["title"], response_data["title"])
+
 if __name__ == "__main__":
     unittest.main()

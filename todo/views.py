@@ -13,21 +13,24 @@ def index():
         entry = Entry(request_json["title"])
         db_session.add(entry)
         db_session.commit()
-        return jsonify(title=request_json["title"],
-                completed=False, url=url_for("entry", entry_id=entry.id))
+        return jsonify(construct_dict(entry))
     else:
         if request.method == "DELETE":
             Entry.query.delete()
             db_session.commit()
         response = []
         for entry in Entry.query.all():
-            response.append(dict(title=entry.title,
-                completed=entry.completed, url=url_for("entry", entry_id=entry.id)))
+            response.append(construct_dict(entry))
         return json.dumps(response)
 
 @app.route("/<int:entry_id>")
 def entry(entry_id):
-    pass
+    return jsonify(construct_dict(Entry.query.filter(Entry.id == entry_id).first()))
+
+def construct_dict(entry):
+    return dict(title=entry.title, completed=entry.completed,
+            url=url_for("entry", entry_id=entry.id))
+
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):
