@@ -15,6 +15,8 @@ def index():
         db_session.commit()
         return jsonify(title=request_json["title"])
     else:
+        if request.method == "DELETE":
+            Entry.query.delete()
         response = "["
         for entry in Entry.query.all():
             response += json.dumps(dict(title=entry.title))
