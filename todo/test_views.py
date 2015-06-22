@@ -44,9 +44,14 @@ class IndexTestCase(BaseTestCase):
         self.assertEqual(response_data[0], data)
 
     def test_index_deletes_all_entries_after_delete(self):
-        data = dict(title="different text")
-        self.app.post("/", data=json.dumps(data), content_type="application/json")
-        response = self.app.delete("/")
+        data1 = dict(title="different text")
+        self.app.post("/", data=json.dumps(data1), content_type="application/json")
+        data2 = dict(title="some different text")
+        self.app.post("/", data=json.dumps(data2), content_type="application/json")
+        data3 = dict(title="more different text")
+        self.app.post("/", data=json.dumps(data3), content_type="application/json")
+        self.app.delete("/")
+        response = self.app.get("/")
         self.assertEqual(response.data.decode("utf-8"), "[]")
 
     def test_index_returns_multiple_entries_properly_formatted(self):

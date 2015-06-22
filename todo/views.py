@@ -17,6 +17,7 @@ def index():
     else:
         if request.method == "DELETE":
             Entry.query.delete()
+            db_session.commit()
         response = "["
         all_entries = Entry.query.all()
         if all_entries:
