@@ -4,7 +4,7 @@ import unittest
 from flask import json
 from ast import literal_eval
 
-class MainTestCase(BaseTestCase):
+class IndexTestCase(BaseTestCase):
 
     def test_index(self):
         response = self.app.get("/")
@@ -35,6 +35,13 @@ class MainTestCase(BaseTestCase):
     def test_index_responds_with_empty_array_after_delete(self):
         response = self.app.delete("/")
         self.assertEqual(response.data.decode("utf-8"), "[]")
+
+    def test_index_saves_posted_data(self):
+        data = dict(title="different text")
+        self.app.post("/", data=json.dumps(data), content_type="application/json")
+        response = self.app.get("/")
+        response_data = literal_eval(response.data.decode("utf-8"))
+        self.assertEqual(response_data[0], data)
 
 if __name__ == "__main__":
     unittest.main()
