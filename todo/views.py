@@ -20,6 +20,7 @@ def index():
         response = "["
         for entry in Entry.query.all():
             response += json.dumps(dict(title=entry.title))
+            response += ", "
         response += "]"
         return response
 
