@@ -58,3 +58,6 @@ target/
 
 # Virtualenv
 virtualenv/
+
+# debug database
+debug.db
