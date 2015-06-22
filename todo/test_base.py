@@ -14,6 +14,9 @@ class BaseTestCase(unittest.TestCase):
             app.config["DATABASE"] = "sqlite://"
         self.app = app.test_client()
         init_db()
+        self.context = app.test_request_context()
+        self.context.push()
 
     def tearDown(self):
+        self.context.pop()
         delete_all_entries()
