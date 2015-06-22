@@ -13,7 +13,7 @@ def index():
         entry = Entry(request_json["title"])
         db_session.add(entry)
         db_session.commit()
-        return jsonify(title=request_json["title"], completed="")
+        return jsonify(title=request_json["title"], completed=False)
     else:
         if request.method == "DELETE":
             Entry.query.delete()
