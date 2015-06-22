@@ -14,13 +14,19 @@ class MainTestCase(BaseTestCase):
         self.assertEqual(response.headers["Access-Control-Allow-Origin"], "www.example.com")
 
     def test_index_allows_posts(self):
-        response = self.app.post("/")
+        data = dict(title="some text")
+        response = self.app.post("/", data=json.dumps(data), content_type="application/json")
         self.assertEqual(response.status_code, 200)
 
     def test_index_returns_json(self):
         response = self.app.get("/" )
         json_ = json.loads(response.data)
         self.assertIsInstance(json_, dict)
+
+    def test_index_returns_entry(self):
+        data = dict(title="some other text")
+        response = self.app.post("/", data=json.dumps(data), content_type="application/json")
+        self.assertEqual(data, json.loads(response.data))
 
 if __name__ == "__main__":
     unittest.main()

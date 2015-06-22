@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import os
-from flask import Flask, Response, jsonify
+from flask import Flask, Response, jsonify, request
 from flask.ext.cors import CORS
 
 DATABASE=os.getenv("DATABASE_URL", "sqlite://")
@@ -13,7 +13,11 @@ CORS(app, resources=r'/*', allow_headers="Content-Type")
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    return jsonify(string="Hello World")
+    if request.method == "POST":
+        json = request.get_json()
+        return jsonify(title=json["title"])
+    else:
+        return jsonify(dict())
 
 # placed down here to prevent circular imports
 # messing up things
