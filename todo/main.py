@@ -17,7 +17,7 @@ def index():
         json = request.get_json()
         return jsonify(title=json["title"])
     else:
-        return jsonify(dict())
+        return "[]"
 
 # placed down here to prevent circular imports
 # messing up things

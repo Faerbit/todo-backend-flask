@@ -2,6 +2,7 @@ from todo.test_base import BaseTestCase
 
 import unittest
 from flask import json
+from ast import literal_eval
 
 class MainTestCase(BaseTestCase):
 
@@ -18,10 +19,9 @@ class MainTestCase(BaseTestCase):
         response = self.app.post("/", data=json.dumps(data), content_type="application/json")
         self.assertEqual(response.status_code, 200)
 
-    def test_index_returns_json(self):
+    def test_index_returns_lists(self):
         response = self.app.get("/" )
-        json_ = json.loads(response.data)
-        self.assertIsInstance(json_, dict)
+        self.assertIsInstance(literal_eval(response.data.decode("utf-8")), list)
 
     def test_index_returns_entry(self):
         data = dict(title="some other text")
@@ -31,6 +31,10 @@ class MainTestCase(BaseTestCase):
     def test_index_allows_delete(self):
         response = self.app.delete("/")
         self.assertEqual(response.status_code, 200)
+
+    def test_index_responds_with_empty_array_after_delete(self):
+        response = self.app.delete("/")
+        self.assertEqual(response.data.decode("utf-8"), "[]")
 
 if __name__ == "__main__":
     unittest.main()
