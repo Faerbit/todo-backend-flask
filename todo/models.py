@@ -7,8 +7,9 @@ class Entry(Base):
     title = Column(String)
     completed = Column(Boolean)
 
-    def __init__(self, title=None):
+    def __init__(self, title=None, order=None):
         self.title = title
+        self.order = order
         self.completed = False
 
     def __repr__(self):

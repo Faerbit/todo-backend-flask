@@ -28,13 +28,20 @@ class EntryTestCase(BaseTestCase):
         text3 = "additional text"
         entry1 = Entry(text1)
         db_session.add(entry1)
-        db_session.commit()
         entry2 = Entry(text2)
         db_session.add(entry2)
-        db_session.commit()
         entry3 = Entry(text3)
         db_session.add(entry3)
         db_session.commit()
         query = Entry.query.all()
         self.assertEqual([entry1, entry2, entry3], query)
         self.assertNotEqual([entry2, entry1, entry3], query)
+
+    def test_entries_can_be_created_with_order(self):
+        text  = "text"
+        order = 10
+        entry = Entry(text, order)
+        db_session.add(entry)
+        db_session.commit()
+        query = Entry.query.all()
+        self.assertEqual([entry], query)
