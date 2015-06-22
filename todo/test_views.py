@@ -147,5 +147,19 @@ class EntryTestCase(BaseTestCase):
         response_data = json.loads(response.data.decode("utf-8"))
         self.assertEqual(self.data["title"], response_data["title"])
 
+    def test_entry_allows_patching_title(self):
+        data = dict(title="different text")
+        response = self.app.patch(url_for("entry", entry_id=1),
+                data=json.dumps(data), content_type="application/json")
+        self.assertEqual(response.status_code, 200)
+
+    def test_patching_entry_changes_title(self):
+        data = dict(title="different text")
+        self.app.patch(url_for("entry", entry_id=1),
+                data=json.dumps(data), content_type="application/json")
+        response = self.app.get(url_for("entry", entry_id=1))
+        response_data = json.loads(response.data.decode("utf-8"))
+        self.assertEqual(data["title"], response_data["title"])
+
 if __name__ == "__main__":
     unittest.main()

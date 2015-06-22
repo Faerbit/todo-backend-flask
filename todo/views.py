@@ -23,8 +23,13 @@ def index():
             response.append(construct_dict(entry))
         return json.dumps(response)
 
-@app.route("/<int:entry_id>")
+@app.route("/<int:entry_id>", methods=["GET", "PATCH"])
 def entry(entry_id):
+    if request.method == "PATCH":
+        request_json = request.get_json()
+        entry = Entry.query.filter(Entry.id == entry_id).first()
+        entry.title = request_json["title"]
+        db_session.commit()
     return jsonify(construct_dict(Entry.query.filter(Entry.id == entry_id).first()))
 
 def construct_dict(entry):
