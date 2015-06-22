@@ -121,14 +121,14 @@ class IndexTestCase(BaseTestCase):
         self.app.post(url_for("index"), data=json.dumps(data), content_type="application/json")
         response = self.app.get(url_for("index"))
         response_data = json.loads(response.data.decode("utf-8"))
-        self.assertEqual(url_for("entry", entry_id=1), response_data[0]["url"])
+        self.assertEqual(url_for("entry", entry_id=1, _external=True), response_data[0]["url"])
 
     def test_new_entries_have_proper_url(self):
         data = dict(title="different text")
         response = self.app.post(url_for("index"),
                 data=json.dumps(data), content_type="application/json")
         response_data = json.loads(response.data.decode("utf-8"))
-        self.assertEqual(url_for("entry", entry_id=1), response_data["url"])
+        self.assertEqual(url_for("entry", entry_id=1, _external=True), response_data["url"])
 
 class EntryTestCase(BaseTestCase):
 

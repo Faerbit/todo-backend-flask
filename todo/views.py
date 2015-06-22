@@ -29,7 +29,7 @@ def entry(entry_id):
 
 def construct_dict(entry):
     return dict(title=entry.title, completed=entry.completed,
-            url=url_for("entry", entry_id=entry.id))
+            url=url_for("entry", entry_id=entry.id, _external=True))
 
 
 @app.teardown_appcontext
