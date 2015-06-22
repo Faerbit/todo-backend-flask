@@ -9,8 +9,6 @@ test:
 deployment:
   production:
     branch: master
-    heroku:
-        appname: todo-backend-flask
     commands:
         - heroku maintenance:on --app todo-backend-flask
         - heroku scale worker=0 --app todo-backend-flask
