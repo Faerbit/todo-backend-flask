@@ -15,3 +15,6 @@ Base.query = db_session.query_property()
 def init_db():
     import todo.models
     Base.metadata.create_all(bind=engine)
+
+def delete_all_entries():
+    Base.metadata.drop_all(bind=engine)
