@@ -169,5 +169,21 @@ class EntryTestCase(BaseTestCase):
         response_data = json.loads(response.data.decode("utf-8"))
         self.assertEqual(data["completed"], response_data["completed"])
 
+    def test_entry_allows_delete(self):
+        response = self.app.delete(url_for("entry", entry_id=1))
+        self.assertEqual(response.status_code, 200)
+
+    def test_entry_delete_returns_empty_json(self):
+        response = self.app.delete(url_for("entry", entry_id=1))
+        response_data = json.loads(response.data.decode("utf-8"))
+        self.assertEqual(response_data, dict())
+
+    def test_entry_delete_deletes_entry(self):
+        self.app.delete(url_for("entry", entry_id=1))
+        response = self.app.get(url_for("entry", entry_id=1))
+        response_data = json.loads(response.data.decode("utf-8"))
+        self.assertEqual(response_data, dict())
+
+
 if __name__ == "__main__":
     unittest.main()

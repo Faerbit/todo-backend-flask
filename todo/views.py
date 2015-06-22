@@ -23,19 +23,25 @@ def index():
             response.append(construct_dict(entry))
         return json.dumps(response)
 
-@app.route("/<int:entry_id>", methods=["GET", "PATCH"])
+@app.route("/<int:entry_id>", methods=["GET", "PATCH", "DELETE"])
 def entry(entry_id):
+    entry = Entry.query.filter(Entry.id == entry_id).first()
     if request.method == "PATCH":
         request_json = request.get_json()
         if "title" in request_json:
-            entry = Entry.query.filter(Entry.id == entry_id).first()
             entry.title = request_json["title"]
             db_session.commit()
         if "completed" in request_json:
-            entry = Entry.query.filter(Entry.id == entry_id).first()
             entry.completed = request_json["completed"]
             db_session.commit()
-    return jsonify(construct_dict(Entry.query.filter(Entry.id == entry_id).first()))
+    elif request.method == "DELETE":
+        db_session.delete(entry)
+        db_session.commit()
+        return jsonify(dict())
+    if entry:
+        return jsonify(construct_dict(entry))
+    else:
+        return jsonify(dict())
 
 def construct_dict(entry):
     return dict(title=entry.title, completed=entry.completed,
