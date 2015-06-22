@@ -15,7 +15,8 @@ class IndexTestCase(BaseTestCase):
 
     def test_index_allows_posts(self):
         data = dict(title="some text")
-        response = self.app.post(url_for("index"), data=json.dumps(data), content_type="application/json")
+        response = self.app.post(url_for("index"),
+                data=json.dumps(data), content_type="application/json")
         self.assertEqual(response.status_code, 200)
 
     def test_index_returns_lists(self):
@@ -24,7 +25,8 @@ class IndexTestCase(BaseTestCase):
 
     def test_index_returns_entry(self):
         data = dict(title="some other text")
-        response = self.app.post(url_for("index"), data=json.dumps(data), content_type="application/json")
+        response = self.app.post(url_for("index"),
+                data=json.dumps(data), content_type="application/json")
         self.assertEqual(data["title"], json.loads(response.data)["title"])
 
     def test_index_allows_delete(self):
@@ -81,13 +83,15 @@ class IndexTestCase(BaseTestCase):
 
     def test_new_entries_have_completed_property(self):
         data = dict(title="different text")
-        response = self.app.post(url_for("index"), data=json.dumps(data), content_type="application/json")
+        response = self.app.post(url_for("index"),
+                data=json.dumps(data), content_type="application/json")
         response_data = json.loads(response.data.decode("utf-8"))
         self.assertIn("completed", response_data)
 
     def test_new_entries_are_not_completed_post(self):
         data = dict(title="different text")
-        response = self.app.post(url_for("index"), data=json.dumps(data), content_type="application/json")
+        response = self.app.post(url_for("index"),
+                data=json.dumps(data), content_type="application/json")
         response_data = json.loads(response.data.decode("utf-8"))
         self.assertEqual(response_data["completed"], False)
 
@@ -100,7 +104,8 @@ class IndexTestCase(BaseTestCase):
 
     def test_new_entries_have_url_property(self):
         data = dict(title="different text")
-        response = self.app.post(url_for("index"), data=json.dumps(data), content_type="application/json")
+        response = self.app.post(url_for("index"),
+                data=json.dumps(data), content_type="application/json")
         response_data = json.loads(response.data.decode("utf-8"))
         self.assertIn("url", response_data)
 
@@ -111,6 +116,19 @@ class IndexTestCase(BaseTestCase):
         response_data = json.loads(response.data.decode("utf-8"))
         self.assertIn("url", response_data[0])
 
+    def test_entries_have_proper_url(self):
+        data = dict(title="different text")
+        self.app.post(url_for("index"), data=json.dumps(data), content_type="application/json")
+        response = self.app.get(url_for("index"))
+        response_data = json.loads(response.data.decode("utf-8"))
+        self.assertEqual(url_for("entry", entry_id=1), response_data[0]["url"])
+
+    def test_new_entries_have_proper_url(self):
+        data = dict(title="different text")
+        response = self.app.post(url_for("index"),
+                data=json.dumps(data), content_type="application/json")
+        response_data = json.loads(response.data.decode("utf-8"))
+        self.assertEqual(url_for("entry", entry_id=1), response_data["url"])
 
 if __name__ == "__main__":
     unittest.main()
