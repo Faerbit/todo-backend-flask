@@ -18,18 +18,10 @@ def index():
         if request.method == "DELETE":
             Entry.query.delete()
             db_session.commit()
-        response = "["
-        all_entries = Entry.query.all()
-        if all_entries:
-            for entry in all_entries[:-1]:
-                response += construct_json(entry)
-                response += ", "
-            response += construct_json(all_entries[-1])
-        response += "]"
-        return response
-
-def construct_json(entry):
-    return json.dumps(dict(title=entry.title, completed=entry.completed, url=""))
+        response = []
+        for entry in Entry.query.all():
+            response.append(dict(title=entry.title, completed=entry.completed, url=""))
+        return json.dumps(response)
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):
