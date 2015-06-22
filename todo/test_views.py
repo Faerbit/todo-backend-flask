@@ -62,6 +62,11 @@ class IndexTestCase(BaseTestCase):
         self.assertEqual(response_data[1], data2)
         self.assertEqual(response_data[2], data3)
 
+    def test_index_returns_no_comma_at_the_end_of_the_list(self):
+        data = dict(title="different text")
+        self.app.post("/", data=json.dumps(data), content_type="application/json")
+        response = self.app.get("/")
+        self.assertEqual(response.data.decode("utf-8")[-2:], "}]")
 
 
 if __name__ == "__main__":

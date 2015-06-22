@@ -18,9 +18,12 @@ def index():
         if request.method == "DELETE":
             Entry.query.delete()
         response = "["
-        for entry in Entry.query.all():
-            response += json.dumps(dict(title=entry.title))
-            response += ", "
+        all_entries = Entry.query.all()
+        if all_entries:
+            for entry in all_entries[:-1]:
+                response += json.dumps(dict(title=entry.title))
+                response += ", "
+            response += json.dumps(dict(title=all_entries[-1].title))
         response += "]"
         return response
 
