@@ -98,5 +98,19 @@ class IndexTestCase(BaseTestCase):
         response_data = json.loads(response.data.decode("utf-8"))
         self.assertEqual(response_data[0]["completed"], False)
 
+    def test_new_entries_have_url_property(self):
+        data = dict(title="different text")
+        response = self.app.post("/", data=json.dumps(data), content_type="application/json")
+        response_data = json.loads(response.data.decode("utf-8"))
+        self.assertIn("url", response_data)
+
+    def test_entries_have_url_property(self):
+        data = dict(title="different text")
+        self.app.post("/", data=json.dumps(data), content_type="application/json")
+        response = self.app.get("/")
+        response_data = json.loads(response.data.decode("utf-8"))
+        self.assertIn("url", response_data[0])
+
+
 if __name__ == "__main__":
     unittest.main()
