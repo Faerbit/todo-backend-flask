@@ -29,7 +29,7 @@ def index():
         return response
 
 def construct_json(entry):
-    return json.dumps(dict(title=entry.title,completed=""))
+    return json.dumps(dict(title=entry.title,completed=entry.completed))
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):

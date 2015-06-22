@@ -85,11 +85,18 @@ class IndexTestCase(BaseTestCase):
         response_data = json.loads(response.data.decode("utf-8"))
         self.assertIn("completed", response_data)
 
-    def test_new_entries_are_not_completed(self):
+    def test_new_entries_are_not_completed_post(self):
         data = dict(title="different text")
         response = self.app.post("/", data=json.dumps(data), content_type="application/json")
         response_data = json.loads(response.data.decode("utf-8"))
         self.assertEqual(response_data["completed"], False)
+
+    def test_new_entries_are_not_completed_get(self):
+        data = dict(title="different text")
+        self.app.post("/", data=json.dumps(data), content_type="application/json")
+        response = self.app.get("/")
+        response_data = json.loads(response.data.decode("utf-8"))
+        self.assertEqual(response_data[0]["completed"], False)
 
 if __name__ == "__main__":
     unittest.main()
