@@ -22,11 +22,14 @@ def index():
         all_entries = Entry.query.all()
         if all_entries:
             for entry in all_entries[:-1]:
-                response += json.dumps(dict(title=entry.title))
+                response += construct_json(entry)
                 response += ", "
-            response += json.dumps(dict(title=all_entries[-1].title))
+            response += construct_json(all_entries[-1])
         response += "]"
         return response
+
+def construct_json(entry):
+    return json.dumps(dict(title=entry.title,completed=""))
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):

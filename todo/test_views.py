@@ -41,7 +41,7 @@ class IndexTestCase(BaseTestCase):
         self.app.post("/", data=json.dumps(data), content_type="application/json")
         response = self.app.get("/")
         response_data = literal_eval(response.data.decode("utf-8"))
-        self.assertEqual(response_data[0], data)
+        self.assertEqual(response_data[0]["title"], data["title"])
 
     def test_index_deletes_all_entries_after_delete(self):
         data1 = dict(title="different text")
@@ -63,9 +63,9 @@ class IndexTestCase(BaseTestCase):
         self.app.post("/", data=json.dumps(data3), content_type="application/json")
         response = self.app.get("/")
         response_data = literal_eval(response.data.decode("utf-8"))
-        self.assertEqual(response_data[0], data1)
-        self.assertEqual(response_data[1], data2)
-        self.assertEqual(response_data[2], data3)
+        self.assertEqual(response_data[0]["title"], data1["title"])
+        self.assertEqual(response_data[1]["title"], data2["title"])
+        self.assertEqual(response_data[2]["title"], data3["title"])
 
     def test_index_returns_no_comma_at_the_end_of_the_list(self):
         data = dict(title="different text")
@@ -73,6 +73,12 @@ class IndexTestCase(BaseTestCase):
         response = self.app.get("/")
         self.assertEqual(response.data.decode("utf-8")[-2:], "}]")
 
+    def test_entries_contain_completed_property(self):
+        data = dict(title="different text")
+        self.app.post("/", data=json.dumps(data), content_type="application/json")
+        response = self.app.get("/")
+        response_data = literal_eval(response.data.decode("utf-8"))
+        self.assertIn("completed", response_data[0])
 
 if __name__ == "__main__":
     unittest.main()
