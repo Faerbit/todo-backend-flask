@@ -27,9 +27,14 @@ def index():
 def entry(entry_id):
     if request.method == "PATCH":
         request_json = request.get_json()
-        entry = Entry.query.filter(Entry.id == entry_id).first()
-        entry.title = request_json["title"]
-        db_session.commit()
+        if "title" in request_json:
+            entry = Entry.query.filter(Entry.id == entry_id).first()
+            entry.title = request_json["title"]
+            db_session.commit()
+        if "completed" in request_json:
+            entry = Entry.query.filter(Entry.id == entry_id).first()
+            entry.completed = request_json["completed"]
+            db_session.commit()
     return jsonify(construct_dict(Entry.query.filter(Entry.id == entry_id).first()))
 
 def construct_dict(entry):

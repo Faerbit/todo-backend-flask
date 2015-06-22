@@ -161,5 +161,13 @@ class EntryTestCase(BaseTestCase):
         response_data = json.loads(response.data.decode("utf-8"))
         self.assertEqual(data["title"], response_data["title"])
 
+    def test_patching_entrys_completedness(self):
+        data = dict(completed=True)
+        self.app.patch(url_for("entry", entry_id=1),
+                data=json.dumps(data), content_type="application/json")
+        response = self.app.get(url_for("entry", entry_id=1))
+        response_data = json.loads(response.data.decode("utf-8"))
+        self.assertEqual(data["completed"], response_data["completed"])
+
 if __name__ == "__main__":
     unittest.main()
