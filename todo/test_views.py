@@ -26,7 +26,7 @@ class IndexTestCase(BaseTestCase):
     def test_index_returns_entry(self):
         data = dict(title="some other text")
         response = self.app.post("/", data=json.dumps(data), content_type="application/json")
-        self.assertEqual(data, json.loads(response.data))
+        self.assertEqual(data["title"], json.loads(response.data)["title"])
 
     def test_index_allows_delete(self):
         response = self.app.delete("/")
@@ -79,6 +79,12 @@ class IndexTestCase(BaseTestCase):
         response = self.app.get("/")
         response_data = literal_eval(response.data.decode("utf-8"))
         self.assertIn("completed", response_data[0])
+
+    def test_new_entries_have_completed_property(self):
+        data = dict(title="different text")
+        response = self.app.post("/", data=json.dumps(data), content_type="application/json")
+        response_data = literal_eval(response.data.decode("utf-8"))
+        self.assertIn("completed", response_data)
 
 if __name__ == "__main__":
     unittest.main()
