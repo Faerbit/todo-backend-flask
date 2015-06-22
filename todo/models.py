@@ -4,12 +4,12 @@ from todo.database import Base
 class Entry(Base):
     __tablename__ = "entries"
     id = Column(Integer, primary_key=True)
-    text = Column(String)
+    title = Column(String)
     completed = Column(Boolean)
 
-    def __init__(self, text=None):
-        self.text = text
+    def __init__(self, title=None):
+        self.title = title
         self.completed = False
 
     def __repr__(self):
-        return "<Entry: {}>".format(self.text)
+        return "<Entry: {}>".format(self.title)
