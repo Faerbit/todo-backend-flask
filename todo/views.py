@@ -37,13 +37,17 @@ def entry(entry_id):
         request_json = request.get_json()
         if "title" in request_json:
             entry.title = request_json["title"]
-            db_session.commit()
         if "completed" in request_json:
-            entry.completed = request_json["completed"]
-            db_session.commit()
+            if type(request_json["completed"]) is bool:
+                entry.completed = request_json["completed"]
+            else:
+                raise InvalidUsage(str(request_json["completed"]) + " is not a boolean.")
         if "order" in request_json:
-            entry.order = request_json["order"]
-            db_session.commit()
+            if type(request_json["order"]) is int:
+                entry.order = request_json["order"]
+            else:
+                raise InvalidUsage(str(request_json["order"]) + " is not an integer.")
+        db_session.commit()
     elif request.method == "DELETE":
         db_session.delete(entry)
         db_session.commit()

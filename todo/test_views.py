@@ -152,7 +152,7 @@ class IndexTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(data["order"] + " is not an integer.", response_data["message"])
 
-    def test_new_entries_order_input_validation_string(self):
+    def test_new_entries_order_input_validation_float(self):
         data = dict(title="different text", order=23.3)
         response = self.app.post(url_for("index"),
                 data=json.dumps(data), content_type="application/json")
@@ -238,6 +238,37 @@ class EntryTestCase(BaseTestCase):
         response_data = json.loads(response.data.decode("utf-8"))
         self.assertEqual(data["order"], response_data["order"])
 
+    def test_patching_completed_input_validation_string(self):
+        data = dict(completed="not a bool")
+        response = self.app.patch(url_for("entry", entry_id=1),
+                data=json.dumps(data), content_type="application/json")
+        response_data = json.loads(response.data.decode("utf-8"))
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(data["completed"] + " is not a boolean.", response_data["message"])
+
+    def test_patching_completed_input_validation_float(self):
+        data = dict(completed=23.5)
+        response = self.app.patch(url_for("entry", entry_id=1),
+                data=json.dumps(data), content_type="application/json")
+        response_data = json.loads(response.data.decode("utf-8"))
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(str(data["completed"]) + " is not a boolean.", response_data["message"])
+
+    def test_patching_order_input_validation_string(self):
+        data = dict(order="not a number")
+        response = self.app.patch(url_for("entry", entry_id=1),
+                data=json.dumps(data), content_type="application/json")
+        response_data = json.loads(response.data.decode("utf-8"))
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(data["order"] + " is not an integer.", response_data["message"])
+
+    def test_patching_order_input_validation_float(self):
+        data = dict(order=23.5)
+        response = self.app.patch(url_for("entry", entry_id=1),
+                data=json.dumps(data), content_type="application/json")
+        response_data = json.loads(response.data.decode("utf-8"))
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(str(data["order"]) + " is not an integer.", response_data["message"])
 
 if __name__ == "__main__":
     unittest.main()
