@@ -148,7 +148,7 @@ class EntryTestCase(BaseTestCase):
 
     def setUp(self):
         BaseTestCase.setUp(self)
-        self.data = dict(title="text")
+        self.data = dict(title="text", order=10)
         self.app.post(url_for("index"),
                 data=json.dumps(self.data), content_type="application/json")
 
@@ -206,6 +206,20 @@ class EntryTestCase(BaseTestCase):
         response = self.app.get(url_for("entry", entry_id=2))
         response_data = json.loads(response.data.decode("utf-8"))
         self.assertEqual(response_data["title"], data["title"])
+
+    def test_can_patch_order(self):
+        data = dict(order=3)
+        response = self.app.patch(url_for("entry", entry_id=1),
+                data=json.dumps(data), content_type="application/json")
+        self.assertEqual(response.status_code, 200)
+
+    def test_patching_order_changes_order(self):
+        data = dict(order=3)
+        self.app.patch(url_for("entry", entry_id=1),
+                data=json.dumps(data), content_type="application/json")
+        response = self.app.get(url_for("entry", entry_id=1))
+        response_data = json.loads(response.data.decode("utf-8"))
+        self.assertEqual(data["order"], response_data["order"])
 
 
 if __name__ == "__main__":

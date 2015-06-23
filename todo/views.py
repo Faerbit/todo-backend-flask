@@ -37,6 +37,9 @@ def entry(entry_id):
         if "completed" in request_json:
             entry.completed = request_json["completed"]
             db_session.commit()
+        if "order" in request_json:
+            entry.order = request_json["order"]
+            db_session.commit()
     elif request.method == "DELETE":
         db_session.delete(entry)
         db_session.commit()
