@@ -12,7 +12,6 @@ deployment:
     branch: master
     commands:
         - heroku maintenance:on --app todo-backend-flask
-        - heroku buildpacks:set "git://github.com/heroku/heroku-buildpack-python.git" --app todo-backend-flask
         - git push git@heroku.com:todo-backend-flask.git $CIRCLE_SHA1:refs/heads/master
         - heroku run 'pypy3 -c "from todo.database import drop_tables, init_db; drop_tables(); init_db()"'  --app todo-backend-flask
         - heroku maintenance:off --app todo-backend-flask
