@@ -16,5 +16,5 @@ def init_db():
     import todo.models
     Base.metadata.create_all(bind=engine)
 
-def delete_all_entries():
+def drop_tables():
     Base.metadata.drop_all(bind=engine)
