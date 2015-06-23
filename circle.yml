@@ -4,7 +4,7 @@ machine:
 
 test:
     override:
-        - python -m unittest discover
+        - pypy3 -m unittest discover
 
 deployment:
   production:
