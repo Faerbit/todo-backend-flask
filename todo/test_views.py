@@ -130,6 +130,20 @@ class IndexTestCase(BaseTestCase):
         response_data = json.loads(response.data.decode("utf-8"))
         self.assertEqual(url_for("entry", entry_id=1, _external=True), response_data["url"])
 
+    def test_can_create_new_entry_with_order(self):
+        data = dict(title="different text", order=10)
+        response = self.app.post(url_for("index"),
+                data=json.dumps(data), content_type="application/json")
+        self.assertEqual(response.status_code, 200)
+
+    def test_new_entries_with_order_have_correct_order_property(self):
+        data = dict(title="different text", order=10)
+        self.app.post(url_for("index"),
+                data=json.dumps(data), content_type="application/json")
+        response = self.app.get(url_for("entry", entry_id=1))
+        response_data = json.loads(response.data.decode("utf-8"))
+        self.assertEqual(data["order"], response_data["order"])
+
 class EntryTestCase(BaseTestCase):
 
     def setUp(self):

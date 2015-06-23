@@ -10,7 +10,10 @@ from todo.models import Entry
 def index():
     if request.method == "POST":
         request_json = request.get_json()
-        entry = Entry(request_json["title"])
+        if "order" in request_json:
+            entry = Entry(request_json["title"], request_json["order"])
+        else:
+            entry = Entry(request_json["title"])
         db_session.add(entry)
         db_session.commit()
         return jsonify(construct_dict(entry))
@@ -44,7 +47,12 @@ def entry(entry_id):
         return jsonify(dict())
 
 def construct_dict(entry):
-    return dict(title=entry.title, completed=entry.completed,
+    if entry.order:
+        return dict(title=entry.title, completed=entry.completed,
+            url=url_for("entry", entry_id=entry.id, _external=True),
+            order=entry.order)
+    else:
+        return dict(title=entry.title, completed=entry.completed,
             url=url_for("entry", entry_id=entry.id, _external=True))
 
 
