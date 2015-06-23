@@ -184,6 +184,15 @@ class EntryTestCase(BaseTestCase):
         response_data = json.loads(response.data.decode("utf-8"))
         self.assertEqual(response_data, dict())
 
+    def test_entry_delete_only_deletes_referenced_entry(self):
+        data = dict(title="other")
+        self.app.post(url_for("index"),
+                data=json.dumps(data), content_type="application/json")
+        self.app.delete(url_for("entry", entry_id=1))
+        response = self.app.get(url_for("entry", entry_id=2))
+        response_data = json.loads(response.data.decode("utf-8"))
+        self.assertEqual(response_data["title"], data["title"])
+
 
 if __name__ == "__main__":
     unittest.main()
