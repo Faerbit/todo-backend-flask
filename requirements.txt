@@ -1,8 +1,8 @@
 decorator==3.4.2
-eventlet==0.17.4
 Flask==0.10.1
 Flask-Cors==2.0.1
 Flask-SQLAlchemy==2.0
+gevent==1.0.2
 greenlet==0.4.7
 gunicorn==19.3.0
 itsdangerous==0.24
