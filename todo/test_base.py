@@ -1,5 +1,5 @@
 from todo import app
-from todo.database import init_db, Base, engine, delete_all_entries
+from todo.database import init_db, Base, engine, drop_tables
 
 import unittest
 import os
@@ -19,4 +19,4 @@ class BaseTestCase(unittest.TestCase):
 
     def tearDown(self):
         self.context.pop()
-        delete_all_entries()
+        drop_tables()
