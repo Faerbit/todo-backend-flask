@@ -5,13 +5,17 @@ from flask import json
 
 from todo.database import db_session
 from todo.models import Entry
+from todo.error_handlers import InvalidUsage
 
 @app.route("/", methods=["GET", "POST", "DELETE"])
 def index():
     if request.method == "POST":
         request_json = request.get_json()
         if "order" in request_json:
-            entry = Entry(request_json["title"], request_json["order"])
+            if type(request_json["order"]) is int:
+                entry = Entry(request_json["title"], request_json["order"])
+            else:
+                raise InvalidUsage(str(request_json["order"]) + " is not an integer.")
         else:
             entry = Entry(request_json["title"])
         db_session.add(entry)
@@ -48,6 +52,12 @@ def entry(entry_id):
         return jsonify(construct_dict(entry))
     else:
         return jsonify(dict())
+
+@app.errorhandler(InvalidUsage)
+def handle_invalid_usage(error):
+    response = jsonify(error.to_dict())
+    response.status_code = error.status_code
+    return response
 
 def construct_dict(entry):
     if entry.order:

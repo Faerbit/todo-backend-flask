@@ -144,6 +144,23 @@ class IndexTestCase(BaseTestCase):
         response_data = json.loads(response.data.decode("utf-8"))
         self.assertEqual(data["order"], response_data["order"])
 
+    def test_new_entries_order_input_validation_string(self):
+        data = dict(title="different text", order="not a number")
+        response = self.app.post(url_for("index"),
+                data=json.dumps(data), content_type="application/json")
+        response_data = json.loads(response.data.decode("utf-8"))
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(data["order"] + " is not an integer.", response_data["message"])
+
+    def test_new_entries_order_input_validation_string(self):
+        data = dict(title="different text", order=23.3)
+        response = self.app.post(url_for("index"),
+                data=json.dumps(data), content_type="application/json")
+        response_data = json.loads(response.data.decode("utf-8"))
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(str(data["order"]) + " is not an integer.", response_data["message"])
+
+
 class EntryTestCase(BaseTestCase):
 
     def setUp(self):
