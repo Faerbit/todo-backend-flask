@@ -1,1 +1,1 @@
-web: gunicorn todo:app --log-file -
+web: gunicorn -k gevent todo:app --log-file -
