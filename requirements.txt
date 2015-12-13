@@ -1,4 +1,4 @@
-decorator==4.0.5
+decorator==4.0.6
 Flask==0.10.1
 Flask-Cors==2.1.2
 Flask-SQLAlchemy==2.1
@@ -9,6 +9,6 @@ MarkupSafe==0.23
 pbr==1.8.1
 psycopg2==2.6.1
 six==1.10.0
-SQLAlchemy==1.0.9
+SQLAlchemy==1.0.10
 Werkzeug==0.11.2
 wheel==0.26.0
