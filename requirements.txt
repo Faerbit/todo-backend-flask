@@ -2,7 +2,7 @@ decorator==4.0.9
 Flask==0.10.1
 Flask-Cors==2.1.2
 Flask-SQLAlchemy==2.1
-gunicorn==19.5.0
+gunicorn==19.6.0
 itsdangerous==0.24
 Jinja2==2.8
 MarkupSafe==0.23
