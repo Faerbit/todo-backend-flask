@@ -1,5 +1,5 @@
 decorator==4.0.11
-Flask==0.12
+Flask==0.12.1
 Flask-Cors==3.0.2
 Flask-SQLAlchemy==2.2
 gunicorn==19.7.1
