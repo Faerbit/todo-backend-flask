@@ -9,6 +9,6 @@ MarkupSafe==1.0
 pbr==4.0.2
 psycopg2==2.7.4
 six==1.11.0
-SQLAlchemy==1.2.6
+SQLAlchemy==1.2.7
 Werkzeug==0.14.1
 wheel==0.31.0
