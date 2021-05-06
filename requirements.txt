@@ -1,6 +1,6 @@
 decorator==4.0.10
 Flask==0.12
-Flask-Cors==3.0.2
+Flask-Cors==3.0.9
 Flask-SQLAlchemy==2.1
 gunicorn==19.6.0
 itsdangerous==0.24
