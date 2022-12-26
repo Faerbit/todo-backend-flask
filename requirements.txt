@@ -11,4 +11,4 @@ psycopg2==2.6.2
 six==1.10.0
 SQLAlchemy==1.1.4
 Werkzeug==0.15.3
-wheel==0.29.0
+wheel==0.38.1
